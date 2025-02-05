@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiển thị Ảnh từ Firebase với FPS</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+</head>
+<body>
+    <h2>Ảnh từ Firebase với FPS</h2>
+    <p id="status">Đang kiểm tra kết nối...</p>
+    <p id="fps">FPS: 0</p> <!-- Hiển thị FPS -->
+    <img id="image" alt="Đang tải ảnh..." style="max-width: 100%; height: auto; display: none;"> <!-- Ảnh ẩn trước khi hiển thị -->
+
+    <script type="module">
+        // Cấu hình Firebase
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+        import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCcb88Rmk2uAlt0KzfTjz9tHLnVgv0iXjs",
+            authDomain: "test-942a2.firebaseapp.com",
+            databaseURL: "https://test-942a2-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "test-942a2",
+            storageBucket: "test-942a2.appspot.com",
+            messagingSenderId: "59377461364",
+            appId: "1:59377461364:web:8e680b31877a76ec5f4921",
+            measurementId: "G-3ML1WWBQXZ"
+        };
+
+        // Khởi tạo Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Kiểm tra kết nối Firebase
+        const connectionRef = ref(database, '.info/connected');
+        onValue(connectionRef, (snapshot) => {
+            if (snapshot.val() === true) {
+                document.getElementById("status").innerText = "✅ Kết nối thành công!";
+            } else {
+                document.getElementById("status").innerText = "❌ Không thể kết nối!";
+            }
+        });
+
+        // Đọc ảnh từ Firebase và cập nhật liên tục
+        const imageRef = ref(database, 'image/image1/base64');
+        let lastTime = Date.now(); // Lưu thời gian lần tải cuối
+        let frameCount = 0; // Đếm số frame trong 1 giây
+
+        onValue(imageRef, (snapshot) => {
+            const base64String = snapshot.val();
+            const imgElement = document.getElementById("image");
+
+            if (base64String) {
+                imgElement.src = `data:image/png;base64,${base64String}`;
+                imgElement.style.display = "block"; // Hiển thị ảnh sau khi tải
+
+                frameCount++; // Tăng số frame đã tải
+                const currentTime = Date.now();
+                if (currentTime - lastTime >= 1000) { // Kiểm tra mỗi giây
+                    document.getElementById("fps").innerText = `FPS: ${frameCount}`; // Hiển thị FPS
+                    frameCount = 0; // Đặt lại đếm frame
+                    lastTime = currentTime; // Cập nhật thời gian
+                }
+            } else {
+                imgElement.alt = "❌ Không có dữ liệu ảnh!";
+            }
+        });
+    </script>
+</body>
+</html>
+
+
