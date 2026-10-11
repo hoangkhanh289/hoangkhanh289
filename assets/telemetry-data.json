@@ -1,0 +1,38 @@
+{
+  "languages": [
+    {
+      "name": "Python",
+      "percent": 40.22,
+      "color": "#3572A5"
+    },
+    {
+      "name": "HTML",
+      "percent": 20.78,
+      "color": "#e34c26"
+    },
+    {
+      "name": "C++",
+      "percent": 17.24,
+      "color": "#f34b7d"
+    },
+    {
+      "name": "CSS",
+      "percent": 13.55,
+      "color": "#663399"
+    },
+    {
+      "name": "JavaScript",
+      "percent": 4.74,
+      "color": "#f1e05a"
+    },
+    {
+      "name": "C",
+      "percent": 3.48,
+      "color": "#555555"
+    }
+  ],
+  "fetched_at": "2026-10-17T15:44:37+00:00",
+  "sources": {
+    "languages": "https://github-readme-stats.vercel.app/api/top-langs/?username=hoangkhanh289&layout=compact&langs_count=10"
+  }
+}
