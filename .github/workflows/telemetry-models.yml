@@ -1,0 +1,43 @@
+name: Refresh 3D telemetry stage
+
+on:
+  schedule:
+    - cron: "23 */6 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - scripts/build_telemetry_models.py
+      - scripts/language-icons.svg
+      - .github/workflows/telemetry-models.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: telemetry-models
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Fetch validated statistics and render SVGs
+        run: |
+          python -B -m unittest discover -s scripts -p test_telemetry_models.py
+          python -B scripts/build_telemetry_models.py
+      - name: Publish refreshed stage on the single main commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/telemetry-3d.svg assets/telemetry-data.json README.md docs/telemetry-layout.html
+          if ! git diff --cached --quiet; then
+            previous_head=$(git rev-parse HEAD)
+            git commit --amend --no-edit
+            git push --force-with-lease="refs/heads/main:$previous_head" origin HEAD:refs/heads/main
+          fi

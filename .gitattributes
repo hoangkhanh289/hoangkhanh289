@@ -1,0 +1,2 @@
+# Preserve SVG bytes so cache hashes match on Windows and Linux.
+*.svg -text
