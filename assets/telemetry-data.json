@@ -1,0 +1,58 @@
+{
+  "languages": [
+    {
+      "name": "C",
+      "percent": 77.24,
+      "color": "#555555"
+    },
+    {
+      "name": "Python",
+      "percent": 11.55,
+      "color": "#3572A5"
+    },
+    {
+      "name": "Linker Script",
+      "percent": 5.55,
+      "color": "#858585"
+    },
+    {
+      "name": "CMake",
+      "percent": 2.65,
+      "color": "#DA3434"
+    },
+    {
+      "name": "Makefile",
+      "percent": 1.17,
+      "color": "#427819"
+    },
+    {
+      "name": "C++",
+      "percent": 0.68,
+      "color": "#f34b7d"
+    },
+    {
+      "name": "JavaScript",
+      "percent": 0.33,
+      "color": "#f1e05a"
+    },
+    {
+      "name": "HTML",
+      "percent": 0.32,
+      "color": "#e34c26"
+    },
+    {
+      "name": "Assembly",
+      "percent": 0.28,
+      "color": "#6E4C13"
+    },
+    {
+      "name": "CSS",
+      "percent": 0.24,
+      "color": "#663399"
+    }
+  ],
+  "fetched_at": "2026-10-28T13:14:32+00:00",
+  "sources": {
+    "languages": "https://github-readme-stats.vercel.app/api/top-langs/?username=hoangkhanh289&layout=compact&langs_count=10"
+  }
+}
